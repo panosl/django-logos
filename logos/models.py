@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-import tagging
 
 
 
@@ -20,4 +19,3 @@ class Post(models.Model):
 
 	def get_absolute_url(self):
 		return '/blog/%s/%s/' % (self.pub_date.strftime('%Y/%b/%d').lower(), self.slug)
-tagging.register(Post)
