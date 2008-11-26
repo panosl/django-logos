@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-08 12:44+0200\n"
+"POT-Creation-Date: 2008-11-26 10:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,22 +16,30 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: logos/models.py:8
+#: models.py:11
 msgid "title"
 msgstr "τίτλος"
 
-#: logos/models.py:10
+#: models.py:13
 msgid "date published"
-msgstr "ημερομηνία εξέδωσης"
+msgstr "ημερομηνία δημοσίευσης"
 
-#: logos/models.py:11
+#: models.py:14
 msgid "body text"
 msgstr "κείμενο"
 
-#: logos/models.py:15
+#: models.py:15
+msgid "it is published"
+msgstr "έχει δημοσιευθεί"
+
+#: models.py:16
+msgid "Determines if it will be displayed at the website."
+msgstr "Καθορίζει το εάν θα εμφανίζεται στην ιστοσελίδα."
+
+#: models.py:23
 msgid "post"
 msgstr "ανάρτηση"
 
-#: logos/models.py:16
+#: models.py:24
 msgid "posts"
 msgstr "αναρτήσεις"
