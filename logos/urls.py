@@ -1,10 +1,15 @@
 from django.conf.urls.defaults import *
 from logos.models import Post
+from logos.feeds import LatestPosts
 
 blog_dict = {
 	'queryset': Post.published.all(),
 	'date_field': 'pub_date',
 	'allow_future': True,
+}
+
+feeds = {
+	'latest': LatestPosts,
 }
 
 urlpatterns = patterns('django.views.generic.date_based',
@@ -14,3 +19,6 @@ urlpatterns = patterns('django.views.generic.date_based',
 	(r'^/?$', 'archive_index', dict(blog_dict, allow_empty=True), 'logos-archive'),
 )
 
+urlpatterns += patterns('',
+	(r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
+)
