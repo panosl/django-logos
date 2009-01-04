@@ -1,0 +1,33 @@
+{% extends "blog_base.html" %}
+{% load markup %}
+{% load comments %}
+
+{% block title %}{{ object.title }} - {{ block.super }}{% endblock %}
+
+{% block left-content %}
+	<h3>{{ object.title }}</h3>
+	<p class="pub_date">{{ object.pub_date|date:"l, d M, Y" }}</p>
+	{{ object.body|markdown }}
+
+	<div id="comments">
+	<h4>Σχόλια</h4>
+	{% get_comment_list for object as comment_list %}
+	<ol>
+	{% for comment in comment_list %}
+		<li>
+			<ul>
+				<div class="meta">
+					<li>{{ comment.user_name }}</li>
+					<li class="date">{{ comment.submit_date|timesince }}</li>
+				</div>
+				<li class="comment">{{ comment.comment }}</li>
+			</ul>
+		</li>
+	{% endfor %}
+	</ol>
+	</div>
+
+	<h4>Σχολιάστε Και Εσείς</h4>
+	{% render_comment_form for object %}
+
+{% endblock %}

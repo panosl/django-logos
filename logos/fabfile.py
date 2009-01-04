@@ -2,14 +2,11 @@ set(
 	fab_hosts = ['192.168.2.44'],
 	fab_user = 'root',
 
-	proj_name = 'eskal.gr',
+	app_name = 'eskal.gr',
 	repo = '/var/www/phaethon/bzr/logos',
 	branch = '/var/www/phaethon/checkouts/logos',
 )
 
-
-def hello_remote():
-	run('echo hello from  $(fab_hosts) to $(fab_user).')
 
 def bzr_checkout():
 	run('cd $(branch); bzr co $(repo)')
@@ -26,4 +23,4 @@ def reboot():
 def deploy(initial=False):
 	bzr_push()
 	bzr_pull()
-	reboot()
+	#reboot()
