@@ -1,26 +1,32 @@
 set(
-	fab_hosts = ['192.168.2.44'],
-	fab_user = 'root',
+	fab_hosts = ['login.solhost.org'],
+	fab_host = 'login.solhost.org',
+	fab_port = '6114',
+	fab_user = 'phaethon',
 
-	app_name = 'eskal.gr',
+	app_name = 'logos',
 	repo = '/var/www/phaethon/bzr/logos',
-	branch = '/var/www/phaethon/checkouts/logos',
+	branch = '/var/www/phaethon/checkouts',
 )
 
 
 def bzr_checkout():
-	run('cd $(branch); bzr co $(repo)')
+	run('cd $(branch); bzr co $(repo) $(app_name)')
 
 def bzr_push():
-	local('bzr push sftp://%s@%s//var/www/phaethon/bzr/logos' % ('root', '192.168.2.44'))
+	local('bzr push sftp://$(fab_user)@$(fab_host):$(fab_port)/$(repo)')
 
 def bzr_pull():
-	run('cd $(branch); bzr pull $(repo)')
+	run('cd $(branch)/$(app_name); bzr pull $(repo)')
 
-def reboot():
-	run('apachectl -k graceful')
+def symlink():
+	run('cd /var/www/phaethon/python-local/; ln -s /var/www/phaethon/checkouts/$(branch)/$(app_name)/$(app_name)/ $(app_name)')
 
-def deploy(initial=False):
+def initial_deploy():
 	bzr_push()
 	bzr_pull()
-	#reboot()
+	symlink()
+
+def deploy():
+	bzr_push()
+	bzr_pull()
