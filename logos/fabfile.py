@@ -24,7 +24,7 @@ def symlink():
 
 def initial_deploy():
 	bzr_push()
-	bzr_pull()
+	bzr_checkout()
 	symlink()
 
 def deploy():
