@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 from tagging.views import tagged_object_list
 from logos.models import Post
-from logos.feeds import LatestPosts
+from logos.feeds import LatestPosts, TagFeed
 
 blog_dict = {
 	'queryset': Post.published.all(),
@@ -11,6 +11,7 @@ blog_dict = {
 
 feeds = {
 	'latest': LatestPosts,
+	'tag': TagFeed,
 }
 
 urlpatterns = patterns('django.views.generic.date_based',
