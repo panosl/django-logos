@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.contrib.comments.moderation import CommentModerator, moderator
 from logos.conf import settings
 if settings.USE_TAGS:
 	from tagging.fields import TagField
@@ -32,3 +33,9 @@ class Post(models.Model):
 
 	def get_absolute_url(self):
 		return '/blog/%s/%s/' % (self.pub_date.strftime('%Y/%b/%d').lower(), self.slug)
+
+class PostModerator(CommentModerator):
+	email_notification = True
+
+
+moderator.register(Post, PostModerator)
