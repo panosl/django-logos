@@ -15,5 +15,4 @@ setup(name='logos',
 		'Operating System :: OS Independent',
 		'Programming Language :: Python',
 		'Topic :: Utilities'],
-	)
 )
