@@ -15,6 +15,7 @@ class Post(models.Model):
 	slug = models.SlugField()
 	pub_date = models.DateTimeField(_('date published'))
 	body = models.TextField(_('body text'), blank=True)
+	allow_comments = models.BooleanField(default=True)
 	is_published = models.BooleanField(_('it is published'), default=True,
 		help_text=_('Determines if it will be displayed at the website.'))
 	if settings.USE_TAGS:
@@ -35,6 +36,7 @@ class Post(models.Model):
 		return '/blog/%s/%s/' % (self.pub_date.strftime('%Y/%b/%d').lower(), self.slug)
 
 class PostModerator(CommentModerator):
+	enable_field = 'allow_comments'
 	email_notification = True
 
 
