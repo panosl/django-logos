@@ -1,7 +1,9 @@
 from django.conf.urls.defaults import *
+from django.contrib.sitemaps import GenericSitemap
 from tagging.views import tagged_object_list
 from logos.models import Post
 from logos.feeds import LatestPosts, TagFeed
+
 
 blog_dict = {
 	'queryset': Post.published.all(),
@@ -12,6 +14,10 @@ blog_dict = {
 feeds = {
 	'latest': LatestPosts,
 	'tag': TagFeed,
+}
+
+sitemap = {
+	'blog': GenericSitemap(blog_dict, priority=0.6),
 }
 
 urlpatterns = patterns('django.views.generic.date_based',
