@@ -32,8 +32,16 @@ class Post(models.Model):
 	def __unicode__(self):
 		return self.title
 
+	@models.permalink
 	def get_absolute_url(self):
-		return '/blog/%s/%s/' % (self.pub_date.strftime('%Y/%b/%d').lower(), self.slug)
+		return ('logos_post_detail', (), {
+			'year': self.pub_date.year,
+			'month': self.pub_date.strftime('%b').lower(),
+			'day': self.pub_date.day,
+			'slug': self.slug,
+		})
+	#def get_absolute_url(self):
+		#return '/blog/%s/%s/' % (self.pub_date.strftime('%Y/%b/%d').lower(), self.slug)
 
 class PostModerator(CommentModerator):
 	enable_field = 'allow_comments'
