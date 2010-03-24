@@ -40,8 +40,6 @@ class Post(models.Model):
 			'day': self.pub_date.day,
 			'slug': self.slug,
 		})
-	#def get_absolute_url(self):
-		#return '/blog/%s/%s/' % (self.pub_date.strftime('%Y/%b/%d').lower(), self.slug)
 
 class PostModerator(CommentModerator):
 	enable_field = 'allow_comments'
