@@ -11,7 +11,7 @@ class PublicPostManager(models.Manager):
 		return super(PublicPostManager, self).get_query_set().filter(is_published=True)
 
 class Post(models.Model):
-	title = models.CharField(_('title'), max_length=30)
+	title = models.CharField(_('title'), max_length=100)
 	slug = models.SlugField()
 	pub_date = models.DateTimeField(_('date published'))
 	body = models.TextField(_('body text'), blank=True)
