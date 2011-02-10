@@ -1,19 +1,25 @@
 from django.conf.urls.defaults import *
 from django.contrib.sitemaps import GenericSitemap
-from tagging.views import tagged_object_list
 from logos.models import Post
-from logos.feeds import LatestPosts, TagFeed
+from logos.conf import settings
+if settings.USE_TAGS:
+	from tagging.views import tagged_object_list
+	from logos.feeds import LatestPosts, TagFeed
+	feeds = {
+		'latest': LatestPosts,
+		'tag': TagFeed,
+	}
+else:
+	from logos.feeds import LatestPosts
+	feeds = {
+		'latest': LatestPosts,
+	}
 
 
 blog_dict = {
 	'queryset': Post.published.all(),
 	'date_field': 'pub_date',
 	'allow_future': True,
-}
-
-feeds = {
-	'latest': LatestPosts,
-	'tag': TagFeed,
 }
 
 sitemap = {
@@ -42,9 +48,13 @@ urlpatterns += patterns('',
 	url(r'^feeds/(?P<url>.*)/$',
 		'django.contrib.syndication.views.feed',
 		{'feed_dict': feeds}),
-	url(r'^tag/(?P<tag>[^/]+)/$',
-		tagged_object_list,
-		dict(queryset_or_model=Post, paginate_by=10, allow_empty=True,
-			template_object_name='post'),
-		name='widget_tag_detail'),
 )
+
+if settings.USE_TAGS:
+	urlpatterns += patterns('',
+		url(r'^tag/(?P<tag>[^/]+)/$',
+			tagged_object_list,
+			dict(queryset_or_model=Post, paginate_by=10, allow_empty=True,
+				template_object_name='post'),
+			name='widget_tag_detail'),
+	)
