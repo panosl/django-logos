@@ -20,6 +20,7 @@ blog_dict = {
 	'queryset': Post.published.all(),
 	'date_field': 'pub_date',
 	'allow_future': True,
+	'num_latest': settings.NUM_LATEST,
 }
 
 sitemap = {
@@ -54,7 +55,7 @@ if settings.USE_TAGS:
 	urlpatterns += patterns('',
 		url(r'^tag/(?P<tag>[^/]+)/$',
 			tagged_object_list,
-			dict(queryset_or_model=Post, paginate_by=10, allow_empty=True,
+			dict(queryset_or_model=Post, paginate_by=settings.TAG_PAGINATE_BY, allow_empty=True,
 				template_object_name='post'),
 			name='widget_tag_detail'),
 	)
