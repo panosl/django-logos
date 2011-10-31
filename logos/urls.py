@@ -20,7 +20,6 @@ blog_dict = {
 	'queryset': Post.published.all(),
 	'date_field': 'pub_date',
 	'allow_future': True,
-	'num_latest': settings.NUM_LATEST,
 }
 
 sitemap = {
@@ -41,7 +40,7 @@ urlpatterns = patterns('django.views.generic.date_based',
 		name='logos_year_archive'),
 	url(r'^/?$',
 		'archive_index',
-		dict(blog_dict, allow_empty=True),
+		dict(blog_dict, num_latest=settings.NUM_LATEST, allow_empty=True),
 		name='logos-archive'),
 )
 
