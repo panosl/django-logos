@@ -36,7 +36,7 @@ urlpatterns = patterns('django.views.generic.date_based',
 		blog_dict),
 	url(r'^(?P<year>\d{4})/$',
 		'archive_year',
-		blog_dict,
+		dict(blog_dict, make_object_list=True),
 		name='logos_year_archive'),
 	url(r'^/?$',
 		'archive_index',
@@ -47,7 +47,8 @@ urlpatterns = patterns('django.views.generic.date_based',
 urlpatterns += patterns('',
 	url(r'^feeds/(?P<url>.*)/$',
 		'django.contrib.syndication.views.feed',
-		{'feed_dict': feeds}),
+		{'feed_dict': feeds},
+		name='logos_feeds'),
 )
 
 if settings.USE_TAGS:
