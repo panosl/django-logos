@@ -18,6 +18,8 @@ class Post(models.Model):
 	allow_comments = models.BooleanField(default=True)
 	is_published = models.BooleanField(_('it is published'), default=True,
 		help_text=_('Determines if it will be displayed at the website.'))
+	is_pinned = models.BooleanField(_('is it pinned?'), default=False,
+		help_text=_('Determines if it will remain on top even if newer posts are made.'))
 	if settings.USE_TAGS:
 		tags = TagField()
 
