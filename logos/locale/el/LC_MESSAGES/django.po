@@ -8,38 +8,47 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-26 10:39+0200\n"
+"POT-Creation-Date: 2011-11-03 16:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: models.py:11
+#: models.py:14
 msgid "title"
 msgstr "τίτλος"
 
-#: models.py:13
+#: models.py:16
 msgid "date published"
 msgstr "ημερομηνία δημοσίευσης"
 
-#: models.py:14
+#: models.py:17
 msgid "body text"
 msgstr "κείμενο"
 
-#: models.py:15
+#: models.py:19
 msgid "it is published"
 msgstr "έχει δημοσιευθεί"
 
-#: models.py:16
+#: models.py:20
 msgid "Determines if it will be displayed at the website."
 msgstr "Καθορίζει το εάν θα εμφανίζεται στην ιστοσελίδα."
 
-#: models.py:23
+#: models.py:21
+msgid "is it pinned?"
+msgstr "Είναι καρφιτσωμένο"
+
+#: models.py:22
+msgid "Determines if it will remain on top even if newer posts are made."
+msgstr "Καθορίζει το εάν θα εμφανίζεται στην κορυφή ακόμα και αν έχουν γίνει νεώτερες αναρτήσεις."
+
+#: models.py:31
 msgid "post"
 msgstr "ανάρτηση"
 
-#: models.py:24
+#: models.py:32
 msgid "posts"
 msgstr "αναρτήσεις"
