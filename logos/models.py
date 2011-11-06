@@ -3,7 +3,8 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.comments.moderation import CommentModerator, moderator
 from logos.conf import settings
 if settings.USE_TAGS:
-	from tagging.fields import TagField
+	#from tagging.fields import TagField
+	from taggit.managers import TaggableManager
 
 
 class PublicPostManager(models.Manager):
@@ -21,7 +22,7 @@ class Post(models.Model):
 	is_pinned = models.BooleanField(_('is it pinned?'), default=False,
 		help_text=_('Determines if it will remain on top even if newer posts are made.'))
 	if settings.USE_TAGS:
-		tags = TagField()
+		tags = TaggableManager()
 
 	objects = models.Manager()
 	published = PublicPostManager()

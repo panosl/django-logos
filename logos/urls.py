@@ -3,7 +3,7 @@ from django.contrib.sitemaps import GenericSitemap
 from logos.models import Post
 from logos.conf import settings
 if settings.USE_TAGS:
-	from tagging.views import tagged_object_list
+	from taggit.views import tagged_object_list
 	from logos.feeds import LatestPosts, TagFeed
 	feeds = {
 		'latest': LatestPosts,
@@ -53,9 +53,10 @@ urlpatterns += patterns('',
 
 if settings.USE_TAGS:
 	urlpatterns += patterns('',
-		url(r'^tag/(?P<tag>[^/]+)/$',
+		url(r'^tag/(?P<slug>[^/]+)/$',
 			tagged_object_list,
-			dict(queryset_or_model=Post, paginate_by=settings.TAG_PAGINATE_BY, allow_empty=True,
+			#dict(queryset_or_model=Post, paginate_by=settings.TAGS_PAGINATE_BY, allow_empty=True,
+			dict(queryset=Post.objects.all(), paginate_by=settings.TAGS_PAGINATE_BY, allow_empty=True,
 				template_object_name='post'),
 			name='widget_tag_detail'),
 	)

@@ -4,7 +4,7 @@ from django.contrib.sites.models import Site
 from logos.conf import settings
 from logos.models import Post
 if settings.USE_TAGS:
-	from tagging.models import Tag, TaggedItem
+	from taggit.models import Tag
 
 
 class LatestPosts(Feed):
@@ -14,6 +14,7 @@ class LatestPosts(Feed):
 
 	def items(self):
 		return Post.published.all()[:5]
+
 
 if settings.USE_TAGS:
 	class TagFeed(Feed):
@@ -31,4 +32,4 @@ if settings.USE_TAGS:
 			return '/blog/tag/%s' % (obj.name,)
 		
 		def items(self, obj):
-			return TaggedItem.objects.get_by_model(Post, obj.name)
+			return Post.objects.filter(tags__name__in=[obj.name])
