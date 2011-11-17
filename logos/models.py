@@ -3,12 +3,36 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.comments.moderation import CommentModerator, moderator
 from logos.conf import settings
 if settings.USE_TAGS:
-	from tagging.fields import TagField
+	from slugify import slugify
+	#from tagging.fields import TagField
+	from taggit.managers import TaggableManager
+	from taggit.models import Tag, TaggedItem
+
+
+class PostTag(Tag):
+	class Meta:
+		proxy = True
+
+	def slugify(self, tag, i=None):
+		slug = slugify(tag)
+		if i is not None:
+			slug += "_%d" % i
+		return slug
+
+
+class TaggedPost(TaggedItem):
+	class Meta:
+		proxy = True
+
+	@classmethod
+	def tag_model(self):
+		return PostTag
 
 
 class PublicPostManager(models.Manager):
 	def get_query_set(self):
 		return super(PublicPostManager, self).get_query_set().filter(is_published=True)
+
 
 class Post(models.Model):
 	title = models.CharField(_('title'), max_length=100)
@@ -21,7 +45,7 @@ class Post(models.Model):
 	is_pinned = models.BooleanField(_('is it pinned?'), default=False,
 		help_text=_('Determines if it will remain on top even if newer posts are made.'))
 	if settings.USE_TAGS:
-		tags = TagField()
+		tags = TaggableManager(through=TaggedPost, blank=True)
 
 	objects = models.Manager()
 	published = PublicPostManager()

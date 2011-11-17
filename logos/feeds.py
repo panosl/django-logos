@@ -4,7 +4,7 @@ from django.contrib.sites.models import Site
 from logos.conf import settings
 from logos.models import Post
 if settings.USE_TAGS:
-	from tagging.models import Tag, TaggedItem
+	from logos.models import PostTag
 
 
 class LatestPosts(Feed):
@@ -15,12 +15,13 @@ class LatestPosts(Feed):
 	def items(self):
 		return Post.published.all()[:5]
 
+
 if settings.USE_TAGS:
 	class TagFeed(Feed):
 		def get_object(self, bits):
 			if len(bits) != 1:
 				raise ObjectDoesNotExist
-			return Tag.objects.get(name__exact=bits[0])
+			return PostTag.objects.get(slug__exact=bits[0])
 
 		def title(self, obj):
 			return '%s feed for "%s" tag' % (Site.objects.get(pk=1).name, obj.name)
@@ -31,4 +32,4 @@ if settings.USE_TAGS:
 			return '/blog/tag/%s' % (obj.name,)
 		
 		def items(self, obj):
-			return TaggedItem.objects.get_by_model(Post, obj.name)
+			return Post.objects.filter(tags__name__in=[obj.name])
