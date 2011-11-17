@@ -58,5 +58,5 @@ if settings.USE_TAGS:
 			#dict(queryset_or_model=Post, paginate_by=settings.TAGS_PAGINATE_BY, allow_empty=True,
 			dict(queryset=Post.objects.all(), paginate_by=settings.TAGS_PAGINATE_BY, allow_empty=True,
 				template_object_name='post'),
-			name='widget_tag_detail'),
+			name='logos_tag_detail'),
 	)
