@@ -9,24 +9,25 @@ if settings.USE_TAGS:
 	from taggit.models import Tag, TaggedItem
 
 
-class PostTag(Tag):
-	class Meta:
-		proxy = True
+if settings.USE_TAGS:
+	class PostTag(Tag):
+		class Meta:
+			proxy = True
 
-	def slugify(self, tag, i=None):
-		slug = slugify(tag)
-		if i is not None:
-			slug += "_%d" % i
-		return slug
+		def slugify(self, tag, i=None):
+			slug = slugify(tag)
+			if i is not None:
+				slug += "_%d" % i
+			return slug
 
 
-class TaggedPost(TaggedItem):
-	class Meta:
-		proxy = True
+	class TaggedPost(TaggedItem):
+		class Meta:
+			proxy = True
 
-	@classmethod
-	def tag_model(self):
-		return PostTag
+		@classmethod
+		def tag_model(self):
+			return PostTag
 
 
 class PublicPostManager(models.Manager):
