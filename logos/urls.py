@@ -41,7 +41,7 @@ urlpatterns = patterns('django.views.generic.date_based',
 	url(r'^/?$',
 		'archive_index',
 		dict(blog_dict, num_latest=settings.NUM_LATEST, allow_empty=True),
-		name='logos-archive'),
+		name='logos_archive'),
 )
 
 urlpatterns += patterns('',
