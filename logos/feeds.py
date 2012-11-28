@@ -1,5 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.syndication.feeds import Feed, FeedDoesNotExist
+from django.contrib.syndication.views import Feed, FeedDoesNotExist
 from django.contrib.sites.models import Site
 from logos.conf import settings
 from logos.models import Post

@@ -46,7 +46,7 @@ urlpatterns = patterns('django.views.generic.date_based',
 
 urlpatterns += patterns('',
     url(r'^feeds/(?P<url>.*)/$',
-        'django.contrib.syndication.views.feed',
+        'django.contrib.syndication.views.Feed',
         {'feed_dict': feeds},
         name='logos_feeds'),
 )
