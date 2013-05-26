@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.views.generic import dates
 from django.contrib.sitemaps import GenericSitemap
 from logos.models import Post
 from logos.conf import settings
@@ -26,21 +27,18 @@ sitemap = {
     'blog': GenericSitemap(blog_dict, priority=0.6),
 }
 
-urlpatterns = patterns('django.views.generic.date_based',
+urlpatterns = patterns('',
     url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\w{1,2})/(?P<slug>[0-9A-Za-z-]+)/$',
-        'object_detail',
-        dict(blog_dict, slug_field='slug'),
+        dates.DateDetailView.as_view(model=Post, date_field='pub_date'),
         name='logos_post_detail'),
     url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/$',
-        'archive_month',
-        blog_dict),
+        dates.MonthArchiveView.as_view(model=Post, date_field='pub_date'),
+        name='logos_month_archive'),
     url(r'^(?P<year>\d{4})/$',
-        'archive_year',
-        dict(blog_dict, make_object_list=True),
+        dates.YearArchiveView.as_view(model=Post, date_field='pub_date'),
         name='logos_year_archive'),
     url(r'^/?$',
-        'archive_index',
-        dict(blog_dict, num_latest=settings.NUM_LATEST, allow_empty=True),
+        dates.ArchiveIndexView.as_view(model=Post, date_field='pub_date'),
         name='logos_archive'),
 )
 
