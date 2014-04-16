@@ -1,6 +1,8 @@
-from django.conf.urls.defaults import *
+#from django.conf.urls.defaults import *
+from django.conf.urls import patterns, include, url
 from django.views.generic import dates
-from django.contrib.sitemaps import GenericSitemap
+#from django.contrib.sitemaps import GenericSitemap
+
 from logos.models import Post
 from logos.conf import settings
 if settings.USE_TAGS:
@@ -23,9 +25,9 @@ blog_dict = {
     'allow_future': True,
 }
 
-sitemap = {
-    'blog': GenericSitemap(blog_dict, priority=0.6),
-}
+#sitemap = {
+    #'blog': GenericSitemap(blog_dict, priority=0.6),
+#}
 
 urlpatterns = patterns('',
     url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\w{1,2})/(?P<slug>[0-9A-Za-z-]+)/$',
@@ -42,12 +44,12 @@ urlpatterns = patterns('',
         name='logos_archive'),
 )
 
-urlpatterns += patterns('',
-    url(r'^feeds/(?P<url>.*)/$',
-        'django.contrib.syndication.views.Feed',
-        {'feed_dict': feeds},
-        name='logos_feeds'),
-)
+#urlpatterns += patterns('',
+    #url(r'^feeds/(?P<url>.*)/$',
+        #'django.contrib.syndication.views.Feed',
+        #{'feed_dict': feeds},
+        #name='logos_feeds'),
+#)
 
 if settings.USE_TAGS:
     urlpatterns += patterns('',
