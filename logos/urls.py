@@ -4,6 +4,7 @@ from django.views.generic import dates
 #from django.contrib.sitemaps import GenericSitemap
 
 from logos.models import Post
+from .views import TagIndexView
 from logos.conf import settings
 if settings.USE_TAGS:
     from taggit.views import tagged_object_list
@@ -54,9 +55,6 @@ urlpatterns = patterns('',
 if settings.USE_TAGS:
     urlpatterns += patterns('',
         url(r'^tag/(?P<slug>[^/]+)/$',
-            tagged_object_list,
-            #dict(queryset_or_model=Post, paginate_by=settings.TAGS_PAGINATE_BY, allow_empty=True,
-            dict(queryset=Post.objects.all(), paginate_by=settings.TAGS_PAGINATE_BY, allow_empty=True,
-                template_object_name='post'),
+            TagIndexView.as_view(),
             name='logos_tag_detail'),
     )
