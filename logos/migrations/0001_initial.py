@@ -1,43 +1,56 @@
-# encoding: utf-8
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
-class Migration(SchemaMigration):
-
-    def forwards(self, orm):
-        
-        # Adding model 'Post'
-        db.create_table('logos_post', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('slug', self.gf('django.db.models.fields.SlugField')(max_length=50, db_index=True)),
-            ('pub_date', self.gf('django.db.models.fields.DateTimeField')()),
-            ('body', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('allow_comments', self.gf('django.db.models.fields.BooleanField')(default=True)),
-            ('is_published', self.gf('django.db.models.fields.BooleanField')(default=True)),
-        ))
-        db.send_create_signal('logos', ['Post'])
+from django.db import migrations, models
+import taggit.managers
 
 
-    def backwards(self, orm):
-        
-        # Deleting model 'Post'
-        db.delete_table('logos_post')
+class Migration(migrations.Migration):
 
+    dependencies = [
+        ('taggit', '0002_auto_20150616_2121'),
+    ]
 
-    models = {
-        'logos.post': {
-            'Meta': {'ordering': "('-pub_date',)", 'object_name': 'Post'},
-            'allow_comments': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'body': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_published': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'pub_date': ('django.db.models.fields.DateTimeField', [], {}),
-            'slug': ('django.db.models.fields.SlugField', [], {'max_length': '50', 'db_index': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        }
-    }
-
-    complete_apps = ['logos']
+    operations = [
+        migrations.CreateModel(
+            name='Post',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('title', models.CharField(max_length=100, verbose_name='title')),
+                ('slug', models.SlugField()),
+                ('pub_date', models.DateTimeField(verbose_name='date published')),
+                ('body', models.TextField(verbose_name='body text', blank=True)),
+                ('allow_comments', models.BooleanField(default=True)),
+                ('is_published', models.BooleanField(default=True, help_text='Determines if it will be displayed at the website.', verbose_name='it is published')),
+                ('is_pinned', models.BooleanField(default=False, help_text='Determines if it will remain on top even if newer posts are made.', verbose_name='is it pinned?')),
+            ],
+            options={
+                'ordering': ('-pub_date',),
+                'verbose_name': 'post',
+                'verbose_name_plural': 'posts',
+            },
+        ),
+        migrations.CreateModel(
+            name='PostTag',
+            fields=[
+            ],
+            options={
+                'proxy': True,
+            },
+            bases=('taggit.tag',),
+        ),
+        migrations.CreateModel(
+            name='TaggedPost',
+            fields=[
+            ],
+            options={
+                'proxy': True,
+            },
+            bases=('taggit.taggeditem',),
+        ),
+        migrations.AddField(
+            model_name='post',
+            name='tags',
+            field=taggit.managers.TaggableManager(to='taggit.Tag', through='logos.TaggedPost', blank=True, help_text='A comma-separated list of tags.', verbose_name='Tags'),
+        ),
+    ]

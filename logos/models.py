@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.comments.moderation import CommentModerator, moderator
+from django_comments.moderation import CommentModerator, moderator
 from logos.conf import settings
 if settings.USE_TAGS:
     from slugify import slugify
