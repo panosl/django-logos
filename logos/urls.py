@@ -1,5 +1,5 @@
 #from django.conf.urls.defaults import *
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.views.generic import dates
 #from django.contrib.sitemaps import GenericSitemap
 
@@ -30,7 +30,7 @@ blog_dict = {
     #'blog': GenericSitemap(blog_dict, priority=0.6),
 #}
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\w{1,2})/(?P<slug>[0-9A-Za-z-]+)/$',
         dates.DateDetailView.as_view(model=Post, date_field='pub_date'),
         name='logos_post_detail'),
@@ -40,10 +40,12 @@ urlpatterns = patterns('',
     url(r'^(?P<year>\d{4})/$',
         dates.YearArchiveView.as_view(model=Post, date_field='pub_date'),
         name='logos_year_archive'),
-    url(r'^/?$',
-        dates.ArchiveIndexView.as_view(model=Post, date_field='pub_date'),
+    url(r'^$',
+        dates.ArchiveIndexView.as_view(model=Post,
+            allow_empty=True,
+            date_field='pub_date'),
         name='logos_archive'),
-)
+]
 
 #urlpatterns += patterns('',
     #url(r'^feeds/(?P<url>.*)/$',
@@ -53,8 +55,8 @@ urlpatterns = patterns('',
 #)
 
 if settings.USE_TAGS:
-    urlpatterns += patterns('',
+    urlpatterns += [
         url(r'^tag/(?P<slug>[^/]+)/$',
             TagIndexView.as_view(),
             name='logos_tag_detail'),
-    )
+    ]
