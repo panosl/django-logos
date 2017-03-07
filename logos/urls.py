@@ -41,7 +41,7 @@ urlpatterns = [
         dates.YearArchiveView.as_view(model=Post, date_field='pub_date'),
         name='logos_year_archive'),
     url(r'^$',
-        dates.ArchiveIndexView.as_view(model=Post,
+        dates.ArchiveIndexView.as_view(queryset=Post.objects.filter(is_published=True),
             allow_empty=True,
             date_field='pub_date'),
         name='logos_archive'),
