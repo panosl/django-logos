@@ -1,4 +1,5 @@
 from django.views.generic import DetailView, ListView
+from django.views.generic.dates import DateDetailView
 from django.shortcuts import render_to_response
 
 from taggit.models import Tag
@@ -26,3 +27,14 @@ class TagIndexView(TagMixin, ListView):
 
     def get_queryset(self):
         return Post.objects.filter(tags__slug=self.kwargs.get('slug'))
+
+
+class PostDetailView(DateDetailView):
+    model = Post
+    date_field = 'pub_date'
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Post.objects.all()
+        else:
+            return Post.objects.filter(is_published=True)

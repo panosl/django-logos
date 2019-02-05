@@ -4,7 +4,7 @@ from django.views.generic import dates
 #from django.contrib.sitemaps import GenericSitemap
 
 from logos.models import Post
-from .views import TagIndexView
+from .views import TagIndexView, PostDetailView
 from logos.conf import settings
 if settings.USE_TAGS:
     from taggit.views import tagged_object_list
@@ -32,7 +32,8 @@ blog_dict = {
 
 urlpatterns = [
     url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\w{1,2})/(?P<slug>[0-9A-Za-z-]+)/$',
-        dates.DateDetailView.as_view(model=Post, date_field='pub_date'),
+        # dates.DateDetailView.as_view(model=Post, date_field='pub_date'),
+        PostDetailView.as_view(),
         name='logos_post_detail'),
     url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/$',
         dates.MonthArchiveView.as_view(model=Post, date_field='pub_date'),
