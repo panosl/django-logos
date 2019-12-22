@@ -1,7 +1,10 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.urls import reverse
+
 from django_comments.moderation import CommentModerator, moderator
 from logos.conf import settings
+
 if settings.USE_TAGS:
     from slugify import slugify
     from taggit.managers import TaggableManager
@@ -58,9 +61,8 @@ class Post(models.Model):
     def __unicode__(self):
         return self.title
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('logos_post_detail', (), {
+        return reverse('logos_post_detail', kwargs={
             'year': self.pub_date.year,
             'month': self.pub_date.strftime('%b').lower(),
             'day': self.pub_date.day,
