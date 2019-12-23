@@ -47,7 +47,6 @@ class BasePost(models.Model):
 
     class Meta:
         abstract = True
-        app_label = 'logos'
 
     def __unicode__(self):
         return self.title
