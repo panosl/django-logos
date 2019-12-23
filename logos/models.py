@@ -1,10 +1,10 @@
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse
+from django.utils.translation import ugettext_lazy as _
 
 from django_comments.moderation import CommentModerator, moderator
-from logos.conf import settings
 
+from logos.conf import settings
 if settings.USE_TAGS:
     from slugify import slugify
     from taggit.managers import TaggableManager
@@ -37,14 +37,24 @@ class PublicPostManager(models.Manager):
         return super(PublicPostManager, self).get_query_set().filter(is_published=True)
 
 
-class Post(models.Model):
+class BasePost(models.Model):
     title = models.CharField(_('title'), max_length=100)
     slug = models.SlugField()
     pub_date = models.DateTimeField(_('date published'))
     body = models.TextField(_('body text'), blank=True)
-    allow_comments = models.BooleanField(default=True)
     is_published = models.BooleanField(_('it is published'), default=True,
         help_text=_('Determines if it will be displayed at the website.'))
+
+    class Meta:
+        abstract = True
+        app_label = 'logos'
+
+    def __unicode__(self):
+        return self.title
+
+
+class Post(BasePost):
+    allow_comments = models.BooleanField(default=True)
     is_pinned = models.BooleanField(_('is it pinned?'), default=False,
         help_text=_('Determines if it will remain on top even if newer posts are made.'))
     if settings.USE_TAGS:
@@ -57,6 +67,7 @@ class Post(models.Model):
         ordering = ('-pub_date',)
         verbose_name = _('post')
         verbose_name_plural = _('posts')
+        app_label = 'logos'
 
     def __unicode__(self):
         return self.title
@@ -68,6 +79,7 @@ class Post(models.Model):
             'day': self.pub_date.day,
             'slug': self.slug,
         })
+
 
 class PostModerator(CommentModerator):
     enable_field = 'allow_comments'
