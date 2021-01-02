@@ -11,6 +11,7 @@ setup(name='logos',
     author_email='panos.laganakos@gmail.com',
     packages=['logos'],
     install_requires=[
+        'Django',
         'unicode-slugify',
         'django-contrib-comments',
         'django-taggit',
