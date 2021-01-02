@@ -1,4 +1,5 @@
 #from django.conf.urls.defaults import *
+from django.urls import path
 from django.conf.urls import include, url
 from django.views.generic import dates
 #from django.contrib.sitemaps import GenericSitemap
@@ -46,14 +47,16 @@ urlpatterns = [
             allow_empty=True,
             date_field='pub_date'),
         name='logos_archive'),
-]
 
-#urlpatterns += patterns('',
-    #url(r'^feeds/(?P<url>.*)/$',
-        #'django.contrib.syndication.views.Feed',
-        #{'feed_dict': feeds},
-        #name='logos_feeds'),
-#)
+    path('feeds/latest',
+        LatestPosts(),
+        name='logos_feeds_latest'),
+
+    # url(r'^feeds/(?P<url>.*)/$',
+        # 'django.contrib.syndication.views.Feed',
+        # {'feed_dict': feeds},
+        # name='logos_feeds'),
+]
 
 if settings.USE_TAGS:
     urlpatterns += [
