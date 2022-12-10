@@ -1,16 +1,16 @@
-from django.views.generic import DetailView, ListView
+from django.shortcuts import render
+from django.views.generic import ListView
 from django.views.generic.dates import DateDetailView
-from django.shortcuts import render_to_response
-
 from taggit.models import Tag
 
-from logos.models import Post
 from logos.conf import settings
+from logos.models import Post
 
 
 def index(request):
     latest_post_list = Post.objects.all().order_by('-pub_date')[:5]
-    return render_to_response('blog.html', {'latest_post_list': latest_post_list})
+
+    return render(request, 'blog.html', {'latest_post_list': latest_post_list})
 
 
 class TagMixin(object):
